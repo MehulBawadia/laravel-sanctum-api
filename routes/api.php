@@ -18,6 +18,7 @@ use App\Http\Controllers\ProductsController;
 Route::post('/products/create', [ProductsController::class, 'store']);
 Route::get('/products/{id}', [ProductsController::class, 'show']);
 Route::patch('/products/{id}', [ProductsController::class, 'update']);
+Route::delete('/products/{id}', [ProductsController::class, 'destroy']);
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

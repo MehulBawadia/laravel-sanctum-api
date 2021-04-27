@@ -80,4 +80,27 @@ class ProductsController extends Controller
             'message' => "Product {$product->fresh()->name} updated successfully.",
         ], 201);
     }
+
+    /**
+     * Destroy the product of the given id.
+     *
+     * @param  integer $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $product = Product::find($id);
+        if (! $product) {
+            return response([
+                'message' => "Product not found with the id: {$id}",
+            ], 404);
+        }
+
+        $name = $product->name;
+        $product->delete();
+
+        return response([
+            'message' => "Product {$name} deleted successfully.",
+        ], 201);
+    }
 }
