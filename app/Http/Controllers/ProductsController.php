@@ -29,4 +29,25 @@ class ProductsController extends Controller
             'message' => "Product {$product->name} added successfully.",
         ], 201);
     }
+
+    /**
+     * Display the product of the given id.
+     *
+     * @param  integer $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $product = Product::find($id);
+        if (! $product) {
+            return response([
+                'message' => "Product not found with the id: {$id}",
+            ], 404);
+        }
+
+        return response([
+            'message' => "Product found",
+            'product' => $product
+        ], 200);
+    }
 }
