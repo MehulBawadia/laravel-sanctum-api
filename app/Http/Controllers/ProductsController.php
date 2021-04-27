@@ -50,4 +50,34 @@ class ProductsController extends Controller
             'product' => $product
         ], 200);
     }
+
+    /**
+     * Update the product of the given product id.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param  integer  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required|string',
+            'price' => 'required|numeric',
+            'description' => 'nullable|string',
+        ]);
+
+        $product = Product::find($id);
+        if (! $product) {
+            return response([
+                'message' => "Product not found with the id: {$id}",
+            ], 404);
+        }
+
+        $request['slug'] = Str::slug($request->name);
+        $product->update($request->all());
+
+        return response([
+            'message' => "Product {$product->fresh()->name} updated successfully.",
+        ], 201);
+    }
 }
